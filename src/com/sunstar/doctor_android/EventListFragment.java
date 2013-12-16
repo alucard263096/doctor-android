@@ -85,7 +85,7 @@ public class EventListFragment extends Fragment {
 			imageParam.setGravity(Gravity.CENTER);
 			img.setImageResource(R.drawable.test);
 			//img.setBackgroundColor(Color.parseColor("#ee00ee"));
-			img.setScaleType(ScaleType.CENTER);
+			img.setScaleType(ScaleType.CENTER_CROP);
 			img.setLayoutParams(imageParam);
 			eventGrid.addView(img);
 			
