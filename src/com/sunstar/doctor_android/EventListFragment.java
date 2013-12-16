@@ -1,6 +1,11 @@
 package com.sunstar.doctor_android;
 
+
+
+
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,15 +13,19 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.View.OnTouchListener;
 import android.widget.GridLayout;
 import android.widget.GridLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class EventListFragment extends Fragment {
 	/**
@@ -108,11 +117,43 @@ public class EventListFragment extends Fragment {
 			txtAbstract.setTextSize(12);
 			txtAbstract.setLayoutParams(abstractParam);
 			eventGrid.addView(txtAbstract);
-			
-			
+			eventGrid.setTag(i);
+			eventGrid.setOnTouchListener(onGridTouch);
+			eventGrid.setOnClickListener(popupEvent);
 			ListContainer.addView(eventGrid);
 		}
 	}
+	private Button.OnClickListener popupEvent = new Button.OnClickListener() {
+		public void onClick(View v) {
+			
+			int i=(Integer)v.getTag();
+			
+			Toast.makeText(getActivity().getApplicationContext(), String.valueOf(i),Toast.LENGTH_SHORT).show();
+			
+		}
+	};
+	
+
+	private OnTouchListener onGridTouch = new OnTouchListener() {
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			Log.i("action", String.valueOf(event.getAction()));
+			if (event.getAction() == MotionEvent.ACTION_DOWN) {
+				v.setBackgroundColor(Color.parseColor("#cccccc"));
+			}else if (event.getAction() == MotionEvent.ACTION_MOVE){
+				//v.setBackgroundColor(Color.parseColor("#bbbbbb"));
+			}else if (event.getAction() == MotionEvent.ACTION_UP||event.getAction() == MotionEvent.ACTION_CANCEL) {
+				int i=(Integer)v.getTag();
+				if(i%2==1){
+					v.setBackgroundColor(Color.parseColor("#eeeeee"));
+				}else{
+					v.setBackgroundColor(Color.parseColor("#ffffff"));
+				}
+			}
+			return false;
+		}
+	};
 	
 	private void eventBinding(View view,Context ctx) {
 		
