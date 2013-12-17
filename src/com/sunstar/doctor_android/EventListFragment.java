@@ -3,9 +3,15 @@ package com.sunstar.doctor_android;
 
 
 
+import java.util.List;
+
+import com.sunstar.doctor_android.dao.EventDao;
+import com.sunstar.doctor_android.objects.EventObj;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -62,7 +68,10 @@ public class EventListFragment extends Fragment {
 
 	private void init(View view,Context ctx) {
 		
-		for(int i=0;i<20;i++){
+		EventDao dao=new EventDao();
+		List<EventObj> eventList=dao.getEventList();
+		int i=0;
+		for(EventObj event:eventList){
 			GridLayout eventGrid=new GridLayout(ctx);
 			LayoutParams param=new LayoutParams();
 			//param.width=LayoutParams.MATCH_PARENT;
@@ -72,6 +81,8 @@ public class EventListFragment extends Fragment {
 			eventGrid.setLayoutParams(param);
 			if(i%2==1){
 				eventGrid.setBackgroundColor(Color.parseColor("#eeeeee"));
+			}else{
+				eventGrid.setBackgroundColor(Color.parseColor("#ffffff"));
 			}
 			int screendWidth=this.getActivity().getWindowManager().getDefaultDisplay().getWidth();
 			
@@ -98,7 +109,7 @@ public class EventListFragment extends Fragment {
 			titleParam.setGravity(Gravity.FILL);
 			titleParam.leftMargin=20;
 			titleParam.topMargin=10;
-			txtTitle.setText("这是一个十二字活动的标题");//.substring(0, 12)
+			txtTitle.setText(event.getTitle());//.substring(0, 12)
 			txtTitle.setTextSize(18);
 			txtTitle.setLayoutParams(titleParam);
 			eventGrid.addView(txtTitle);
@@ -113,23 +124,27 @@ public class EventListFragment extends Fragment {
 			abstractParam.topMargin=10;
 			//abstractParam.setMargins(20, 10, 20, 0);
 			txtAbstract.setTextColor(Color.parseColor("#888888"));
-			txtAbstract.setText("一二三四五六七八九零一二三四五六七八九零一二三四五六七八九零一二三四五六七八九零");
+			txtAbstract.setText(event.getSummary());
 			txtAbstract.setTextSize(12);
 			txtAbstract.setLayoutParams(abstractParam);
 			eventGrid.addView(txtAbstract);
-			eventGrid.setTag(i);
+			eventGrid.setTag(R.id.Index,i);
+			eventGrid.setTag(R.id.TagObject,event);
 			eventGrid.setOnTouchListener(onGridTouch);
 			eventGrid.setOnClickListener(popupEvent);
 			ListContainer.addView(eventGrid);
+			i++;
 		}
 	}
 	private Button.OnClickListener popupEvent = new Button.OnClickListener() {
 		public void onClick(View v) {
 			
-			int i=(Integer)v.getTag();
-			
-			Toast.makeText(getActivity().getApplicationContext(), String.valueOf(i),Toast.LENGTH_SHORT).show();
-			
+			//int i=(Integer)v.getTag(R.id.Index);
+			EventObj event=(EventObj)v.getTag(R.id.TagObject);
+			//Toast.makeText(getActivity().getApplicationContext(), String.valueOf(i),Toast.LENGTH_SHORT).show();
+			Intent intent = new Intent(EventListFragment.this.getActivity(), EventActivity.class);
+			intent.putExtra("EventId", event.getEventId());
+			startActivity(intent);  
 		}
 	};
 	
@@ -144,7 +159,7 @@ public class EventListFragment extends Fragment {
 			}else if (event.getAction() == MotionEvent.ACTION_MOVE){
 				//v.setBackgroundColor(Color.parseColor("#bbbbbb"));
 			}else if (event.getAction() == MotionEvent.ACTION_UP||event.getAction() == MotionEvent.ACTION_CANCEL) {
-				int i=(Integer)v.getTag();
+				int i=(Integer)v.getTag(R.id.Index);
 				if(i%2==1){
 					v.setBackgroundColor(Color.parseColor("#eeeeee"));
 				}else{
