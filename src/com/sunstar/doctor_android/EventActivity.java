@@ -27,7 +27,7 @@ public class EventActivity extends Activity {
 	private void showContent() {
 		// TODO Auto-generated method stub
 		int screendWidth=getWindowManager().getDefaultDisplay().getWidth();
-		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width=screendWidth-30;
+		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width=screendWidth-screendWidth/20;
 		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().height=((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width*3/4;
 		((TextView)this.findViewById(R.id.Title)).setText(event.getTitle());
 		((TextView)this.findViewById(R.id.PublishedDate)).setText("发布日期："+event.getPublishedDate());
