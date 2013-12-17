@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 public class EventActivity extends Activity {
 
@@ -25,6 +26,9 @@ public class EventActivity extends Activity {
 
 	private void showContent() {
 		// TODO Auto-generated method stub
+		int screendWidth=getWindowManager().getDefaultDisplay().getWidth();
+		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width=screendWidth-30;
+		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().height=((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width*3/4;
 		((TextView)this.findViewById(R.id.Title)).setText(event.getTitle());
 		((TextView)this.findViewById(R.id.PublishedDate)).setText("发布日期："+event.getPublishedDate());
 		((TextView)this.findViewById(R.id.Content)).setText(event.getContent());
