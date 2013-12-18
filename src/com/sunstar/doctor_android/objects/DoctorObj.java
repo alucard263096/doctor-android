@@ -58,6 +58,7 @@ public class DoctorObj implements ICommonListObj {
 
 	@Override
 	public String getImageUrl(){
-		return this.imageUrl;
+		//return this.imageUrl;
+		return "http://f.hiphotos.baidu.com/baike/w%3D268/sign=1a9b3706cafcc3ceb4c0ce35aa44d6b7/c995d143ad4bd1132e7b0c1658afa40f4bfb055b.jpg";
 	}
 }
