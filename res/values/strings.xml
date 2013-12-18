@@ -9,9 +9,12 @@
     <string name="Member">会员</string>
     <string name="AboutUs">关于我们</string>
     <string name="Quit">退出</string>
-    <string name="title_activity_event">一龄博士——活动</string>
+    <string name="title_activity_event">一龄博士——活动详情</string>
     <string name="hello_world">Hello world!</string>
-    <item name="Index" type="id" format="integer">1</item>
-    <item name="TagObject" type="id" format="integer">2</item>
+
+    <item name="Index" format="integer" type="id">1</item>
+    <item name="TagObject" format="integer" type="id">2</item>
+
+    <string name="title_activity_doctor">一龄博士——医生详情</string>
 
 </resources>

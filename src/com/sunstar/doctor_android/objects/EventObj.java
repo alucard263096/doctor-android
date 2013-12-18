@@ -1,6 +1,8 @@
 package com.sunstar.doctor_android.objects;
 
-public class EventObj {
+import com.sunstar.doctor_android.Interfaces.ICommonListObj;
+
+public class EventObj implements ICommonListObj {
 	
 	int eventId;
 	String title;
@@ -44,5 +46,11 @@ public class EventObj {
 	
 	public String getImageUrl(){
 		return this.imageUrl;
+	}
+
+	@Override
+	public int getId() {
+		// TODO Auto-generated method stub
+		return getEventId();
 	}
 }

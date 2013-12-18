@@ -38,8 +38,8 @@ public class EventActivity extends Activity {
 	private void initEvent() {
 		// TODO Auto-generated method stub
 		Intent intent = getIntent();
-		int eventId = intent.getIntExtra("EventId", 0);
-		EventDao dao=new EventDao();
+		int eventId = intent.getIntExtra("Id", 0);
+		EventDao dao=new EventDao(this);
 		event=dao.getEvent(eventId);
 	}
 

@@ -119,9 +119,16 @@ public class MainActivity extends FragmentActivity implements
 			// getItem is called to instantiate the fragment for the given page.
 			// Return a DummySectionFragment (defined as a static inner class
 			// below) with the page number as its lone argument.
-			
-			Fragment fragment = new EventListFragment();
-			return fragment;
+			if(position==1){
+
+				DoctorListFragment fragment = new DoctorListFragment();
+				return fragment;
+			}
+			else{
+
+				EventListFragment fragment = new EventListFragment();
+				return fragment;
+			}
 				
 		}
 

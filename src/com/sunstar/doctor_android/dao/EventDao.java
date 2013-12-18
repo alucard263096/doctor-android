@@ -3,10 +3,17 @@ package com.sunstar.doctor_android.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+
 import com.sunstar.doctor_android.objects.EventObj;
 
-public class EventDao {
+public class EventDao extends AbstractDao {
 	
+	public EventDao(Context ctx) {
+		super(ctx);
+		// TODO Auto-generated constructor stub
+	}
+
 	public List<EventObj> getEventList(){
 		List<EventObj> eventList=new ArrayList<EventObj>();
 		
