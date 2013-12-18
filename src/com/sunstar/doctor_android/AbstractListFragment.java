@@ -6,6 +6,7 @@ import java.util.List;
 import com.sunstar.doctor_android.Interfaces.ICommonListObj;
 import com.sunstar.doctor_android.dao.EventDao;
 import com.sunstar.doctor_android.objects.EventObj;
+import common.UrlImageLoader;
 
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -88,7 +89,10 @@ public abstract class AbstractListFragment extends Fragment {
 			img.setScaleType(ScaleType.CENTER_CROP);
 			img.setLayoutParams(imageParam);
 			eventGrid.addView(img);
-			
+			if(i==0){
+				UrlImageLoader t=new UrlImageLoader(img,"http://www.baidu.com/img/bdlogo.gif");
+				t.start();
+			}
 			
 			TextView txtTitle=new TextView(ctx);
 			LayoutParams titleParam=new LayoutParams();
