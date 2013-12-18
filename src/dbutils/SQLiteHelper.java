@@ -1,4 +1,4 @@
-package DBUtils;
+package dbutils;
 
 import android.content.ContentValues;
 import android.content.Context;
