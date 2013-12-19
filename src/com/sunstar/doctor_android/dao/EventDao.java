@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.sunstar.doctor_android.objects.EventObj;
 
@@ -17,19 +18,60 @@ public class EventDao extends AbstractDao {
 	public List<EventObj> getEventList(){
 		List<EventObj> eventList=new ArrayList<EventObj>();
 		
-		for(int i=0;i<7;i++){
-			EventObj event=new EventObj(i,"测试方法，标题"+String.valueOf(i),"测试方法，简介"+String.valueOf(i),"2012-3-18 15:28:00");
-			event.setImageUrl("http://h.hiphotos.baidu.com/baike/c0%3Dbaike52%2C5%2C5%2C52%2C17/sign=be0277024fc2d562e605d8bf8678fb8a/024f78f0f736afc37e0be607b319ebc4b64543a982263a70.jpg");
-			eventList.add(event);
+		Cursor cursor = null;
+		try {
+			cursor = util
+					.rawQuery(
+							"select  eventId,title,summary,publishedDate,imageUrl from tb_event order by publishedDate desc Limit 30",new String[] {  });
+			while (cursor.moveToNext()) {
+				int eventId=cursor.getInt(cursor.getColumnIndex("eventId"));
+				String title=cursor.getString(cursor.getColumnIndex("title"));
+				String summary=cursor.getString(cursor.getColumnIndex("summary"));
+				String publishedDate=cursor.getString(cursor.getColumnIndex("publishedDate"));
+				String imageUrl=cursor.getString(cursor.getColumnIndex("imageUrl"));
+				
+				EventObj event=new EventObj(eventId,title,summary,publishedDate);
+				event.setImageUrl(imageUrl);
+				eventList.add(event);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
-		
 		return eventList;
 	}
 
 	public EventObj getEvent(int eventId) {
 		// TODO Auto-generated method stub
-		EventObj event=new EventObj(eventId,"测试方法，标题"+String.valueOf(eventId),"测试方法，简介"+String.valueOf(eventId),"2012-3-18 15:28:00");
-		event.setContent("以下都是正文\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n<br/><br/><br/><br/><br/><br/><br/><br/><br/><strong>fuck</string>\r\n");
+		EventObj event=null;
+		Cursor cursor = null;
+		try {
+			cursor = util
+					.rawQuery(
+							"select top 30 eventId,title,summary,publishedDate,imageUrl,content from tb_event where eventId=? order by publishedDate desc ",new String[] {String.valueOf(eventId)  });
+			while (cursor.moveToNext()) {
+				String title=cursor.getString(cursor.getColumnIndex("title"));
+				String summary=cursor.getString(cursor.getColumnIndex("summary"));
+				String publishedDate=cursor.getString(cursor.getColumnIndex("publishedDate"));
+				String imageUrl=cursor.getString(cursor.getColumnIndex("imageUrl"));
+				String content=cursor.getString(cursor.getColumnIndex("content"));
+				
+				event=new EventObj(eventId,title,summary,publishedDate);
+				event.setImageUrl(imageUrl);
+				event.setContent(content);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
 		return event;
 	}
 	
