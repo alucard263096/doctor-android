@@ -64,7 +64,7 @@ public class UrlImageLoader extends Thread {
             if (conn.getResponseCode() == 200) {  
   
                 InputStream is = conn.getInputStream();  
-                FileOutputStream fos = new FileOutputStream(file);  
+                FileOutputStream fos = new FileOutputStream(file);  			
                 byte[] buffer = new byte[1024];  
                 int len = 0;  
                 while ((len = is.read(buffer)) != -1) {  
