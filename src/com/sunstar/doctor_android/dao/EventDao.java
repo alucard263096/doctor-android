@@ -19,7 +19,7 @@ public class EventDao extends AbstractDao {
 		
 		for(int i=0;i<7;i++){
 			EventObj event=new EventObj(i,"测试方法，标题"+String.valueOf(i),"测试方法，简介"+String.valueOf(i),"2012-3-18 15:28:00");
-			
+			event.setImageUrl("http://h.hiphotos.baidu.com/baike/c0%3Dbaike52%2C5%2C5%2C52%2C17/sign=be0277024fc2d562e605d8bf8678fb8a/024f78f0f736afc37e0be607b319ebc4b64543a982263a70.jpg");
 			eventList.add(event);
 		}
 		

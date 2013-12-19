@@ -89,10 +89,10 @@ public abstract class AbstractListFragment extends Fragment {
 			img.setScaleType(ScaleType.CENTER_CROP);
 			img.setLayoutParams(imageParam);
 			eventGrid.addView(img);
-			if(i==0){
-				UrlImageLoader t=new UrlImageLoader(img,"http://www.baidu.com/img/bdlogo.gif");
-				t.start();
-			}
+			
+			UrlImageLoader t=new UrlImageLoader(img,obj.getImageUrl());
+			t.start();
+			
 			
 			TextView txtTitle=new TextView(ctx);
 			LayoutParams titleParam=new LayoutParams();
