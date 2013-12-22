@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.sunstar.doctor_android.objects.EventObj;
 
@@ -20,9 +21,11 @@ public class EventDao extends AbstractDao {
 		
 		Cursor cursor = null;
 		try {
+			util.open();
+			Log.i("getlist", "aaa");
 			cursor = util
 					.rawQuery(
-							"select  eventId,title,summary,publishedDate,imageUrl from tb_event order by publishedDate desc Limit 30",new String[] {  });
+							"select  eventId,title,summary,publishedDate,imageUrl from tb_event where status=0 and datetime(publishedDate)<=datetime('now','localtime') order by publishedDate desc ",new String[] {  });
 			while (cursor.moveToNext()) {
 				int eventId=cursor.getInt(cursor.getColumnIndex("eventId"));
 				String title=cursor.getString(cursor.getColumnIndex("title"));
@@ -41,6 +44,7 @@ public class EventDao extends AbstractDao {
 			if (cursor != null) {
 				cursor.close();
 			}
+			util.close();
 		}
 		return eventList;
 	}
@@ -52,7 +56,7 @@ public class EventDao extends AbstractDao {
 		try {
 			cursor = util
 					.rawQuery(
-							"select top 30 eventId,title,summary,publishedDate,imageUrl,content from tb_event where eventId=? order by publishedDate desc ",new String[] {String.valueOf(eventId)  });
+							"select  eventId,title,summary, publishedDate,imageUrl,content from tb_event where eventId=?  ",new String[] {String.valueOf(eventId)  });
 			while (cursor.moveToNext()) {
 				String title=cursor.getString(cursor.getColumnIndex("title"));
 				String summary=cursor.getString(cursor.getColumnIndex("summary"));
@@ -74,5 +78,66 @@ public class EventDao extends AbstractDao {
 		}
 		return event;
 	}
-	
+
+	public void batchUpdateEvent(List<EventObj> lsEvent) {
+		// TODO Auto-generated method stub
+		util.open();
+		
+		util.beginTransaction();
+        try { 
+        	
+        	for(EventObj event:lsEvent){
+        		
+        		if(checkExistsEvent(event.getEventId())){
+        			Log.i("act eventa", "update");
+        			updateEvent(event);
+        		}else{
+        			Log.i("act event", "insert");
+        			insertEvent(event);
+        		}
+        		
+        	}
+        	
+        	util.setTransactionSuccessful();
+        } finally{
+        	util.endTransaction();
+		}
+		
+		
+		util.close();
+	}
+	private void insertEvent(EventObj event) {
+		// TODO Auto-generated method stub
+		util.open();
+		
+		StringBuffer sql = new StringBuffer();
+		sql.append("insert into tb_event (eventId  ,title  ,summary ,content ,publishedDate ,imageUrl ,status ) values (?,?,?,?,?,?,?)");
+        Object[] bindArgs = {event.getEventId(),event.getTitle(),event.getSummary(),event.getContent(),event.getPublishedDate(),event.getImageUrl(),event.getStatus()};
+        util.execSQL(sql.toString(),bindArgs);
+        
+		util.close();
+	}
+
+	private void updateEvent(EventObj event) {
+		// TODO Auto-generated method stub
+		util.open();
+
+		StringBuffer sql = new StringBuffer();
+		sql.append("update tb_event set title=?  ,summary=? ,content=? ,publishedDate=? ,imageUrl=? ,status=? where eventId=? ");
+        Object[] bindArgs = {event.getTitle(),event.getSummary(),event.getContent(),event.getPublishedDate(),event.getImageUrl(),event.getStatus(),event.getEventId()};
+        util.execSQL(sql.toString(),bindArgs);
+        
+		util.close();
+	}
+
+	public boolean checkExistsEvent(int eventId){
+		boolean haveData=false;
+    	Cursor cursor = util.rawQuery("select 1  from tb_event where eventId="+String.valueOf(eventId),null);  
+         if(cursor.moveToFirst())
+        	 haveData=true;
+         
+         cursor.close();
+         
+         return haveData;
+	}
 }

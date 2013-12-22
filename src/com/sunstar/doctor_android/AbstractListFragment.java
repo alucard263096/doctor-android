@@ -39,6 +39,9 @@ public abstract class AbstractListFragment extends Fragment {
 	}
 	
 	abstract void initCommonList();
+	abstract void afterLoaded();
+	
+	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +51,9 @@ public abstract class AbstractListFragment extends Fragment {
 
 		initCommonList();
 		findViews(rootView);
-		init(rootView, container.getContext());
+		init();
 		eventBinding(rootView, container.getContext());
-		
+		afterLoaded();
 		return rootView;
 	}
 	
@@ -58,11 +61,15 @@ public abstract class AbstractListFragment extends Fragment {
 		ListContainer=(LinearLayout)view.findViewById(R.id.ListContainer);
 	}
 
-	private void init(View view,Context ctx) {
+	public void init() {
+		
+		ListContainer.removeAllViews();
 		
 		int i=0;
 		for(ICommonListObj obj:listObj){
-			GridLayout eventGrid=new GridLayout(ctx);
+			
+			
+			GridLayout eventGrid=new GridLayout(this.getActivity());
 			LayoutParams param=new LayoutParams();
 			//param.width=LayoutParams.MATCH_PARENT;
 			param.height=200;
@@ -76,7 +83,7 @@ public abstract class AbstractListFragment extends Fragment {
 			}
 			int screendWidth=this.getActivity().getWindowManager().getDefaultDisplay().getWidth();
 			
-			ImageView img=new ImageView(ctx);
+			ImageView img=new ImageView(this.getActivity());
 			LayoutParams imageParam=new LayoutParams();
 			imageParam.width=228;
 			imageParam.height=171;
@@ -94,9 +101,9 @@ public abstract class AbstractListFragment extends Fragment {
 			t.start();
 			
 			
-			TextView txtTitle=new TextView(ctx);
+			TextView txtTitle=new TextView(this.getActivity());
 			LayoutParams titleParam=new LayoutParams();
-			//titleParam.width=screendWidth-480;
+			titleParam.width=screendWidth-270;
 			titleParam.columnSpec=GridLayout.spec(1);
 			titleParam.rowSpec=GridLayout.spec(0);
 			titleParam.setGravity(Gravity.FILL);
@@ -107,7 +114,7 @@ public abstract class AbstractListFragment extends Fragment {
 			txtTitle.setLayoutParams(titleParam);
 			eventGrid.addView(txtTitle);
 			
-			TextView txtAbstract=new TextView(ctx);
+			TextView txtAbstract=new TextView(this.getActivity());
 			LayoutParams abstractParam=new LayoutParams();
 			abstractParam.width=screendWidth-280;
 			abstractParam.columnSpec=GridLayout.spec(1);

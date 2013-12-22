@@ -10,7 +10,7 @@ public class EventObj implements ICommonListObj {
 	String content;
 	String publishedDate;
 	String imageUrl;
-	
+	int status=0;
 	public EventObj(int _eventId,String _title,String _summary,String _publishedDate){
 		this.eventId=_eventId;
 		this.title=_title;
@@ -52,5 +52,12 @@ public class EventObj implements ICommonListObj {
 	public int getId() {
 		// TODO Auto-generated method stub
 		return getEventId();
+	}
+	
+	public int getStatus(){
+		return this.status;
+	}
+	public void setStatus(int _status){
+		this.status=_status;
 	}
 }

@@ -3,6 +3,7 @@ package com.sunstar.doctor_android;
 import com.sunstar.doctor_android.dao.DoctorDao;
 import com.sunstar.doctor_android.dao.EventDao;
 import com.sunstar.doctor_android.objects.DoctorObj;
+import common.UrlImageLoader;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -28,8 +29,9 @@ public class DoctorActivity extends Activity {
 		int screendWidth=getWindowManager().getDefaultDisplay().getWidth();
 		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width=screendWidth-screendWidth/20;
 		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().height=((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width*3/4;
+		UrlImageLoader t=new UrlImageLoader(((ImageView)this.findViewById(R.id.EventImage)),doctor.getImageUrl());
 		((TextView)this.findViewById(R.id.Name)).setText(doctor.getTitle());
-		((TextView)this.findViewById(R.id.Content)).setText(doctor.getDescription());
+		((TextView)this.findViewById(R.id.Content)).setText(doctor.getDescription()+"\r\n\r\n");
 		//((TextView)this.findViewById(R.id.Title)).setText(event.getTitle());
 	}
 

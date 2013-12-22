@@ -2,6 +2,8 @@ package com.sunstar.doctor_android;
 
 import java.util.Locale;
 
+import dbutils.DBUtil;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -77,6 +80,9 @@ public class MainActivity extends FragmentActivity implements
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
 		}
+		
+		//DBUtil dbu=new DBUtil(this);
+		//dbu.recreate();
 	}
 
 	@Override
@@ -85,7 +91,21 @@ public class MainActivity extends FragmentActivity implements
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item){
+		//Toast.makeText(this, item.getTitle()+"|"+item.getItemId()+"|"+R.id.quit, Toast.LENGTH_LONG).show();
+		
+		if(item.getItemId()==R.id.quit){
+			this.finish();
+			int nPid = android.os.Process.myPid();
+			  android.os.Process.killProcess(nPid);
+			  
+			  System.exit(0);
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
@@ -103,7 +123,9 @@ public class MainActivity extends FragmentActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
-
+	
+	
+	
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.

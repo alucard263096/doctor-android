@@ -15,6 +15,9 @@ public class DoctorListFragment extends AbstractListFragment {
 	@Override
 	void initCommonList() {
 		// TODO Auto-generated method stub
+
+		this.listObj.clear();
+		
 		DoctorDao dao=new DoctorDao(this.getActivity());
 		
 		List<DoctorObj> list=dao.getDoctorList();
@@ -30,6 +33,12 @@ public class DoctorListFragment extends AbstractListFragment {
 		Intent intent = new Intent(DoctorListFragment.this.getActivity(), DoctorActivity.class);
 		intent.putExtra("Id", obj.getId());
 		startActivity(intent);  
+	}
+
+	@Override
+	void afterLoaded() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

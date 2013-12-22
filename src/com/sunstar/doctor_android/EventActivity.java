@@ -2,6 +2,7 @@ package com.sunstar.doctor_android;
 
 import com.sunstar.doctor_android.dao.EventDao;
 import com.sunstar.doctor_android.objects.EventObj;
+import common.UrlImageLoader;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -27,11 +28,14 @@ public class EventActivity extends Activity {
 	private void showContent() {
 		// TODO Auto-generated method stub
 		int screendWidth=getWindowManager().getDefaultDisplay().getWidth();
-		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width=screendWidth-screendWidth/20;
-		((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().height=((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width*3/4;
+		ImageView image=((ImageView)this.findViewById(R.id.EventImage));
+		image.getLayoutParams().width=screendWidth-screendWidth/20;
+		image.getLayoutParams().height=((ImageView)this.findViewById(R.id.EventImage)).getLayoutParams().width*3/4;
+		UrlImageLoader t=new UrlImageLoader(image,event.getImageUrl());
+		t.start();
 		((TextView)this.findViewById(R.id.Title)).setText(event.getTitle());
 		((TextView)this.findViewById(R.id.PublishedDate)).setText("发布日期："+event.getPublishedDate());
-		((TextView)this.findViewById(R.id.Content)).setText(event.getContent());
+		((TextView)this.findViewById(R.id.Content)).setText(event.getContent()+"\r\n\r\n");
 		//((TextView)this.findViewById(R.id.Title)).setText(event.getTitle());
 	}
 
